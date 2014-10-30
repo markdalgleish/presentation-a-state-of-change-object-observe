@@ -195,7 +195,7 @@ a
   &-before
     transition-delay: .2s
   &-active
-    opacity: 0.3
+    opacity: 0.5
 
 // Overrides
 
@@ -249,10 +249,12 @@ pre, code
   &--lightning
     background-image: url('../images/lightning.gif')
     &.bespoke-backdrop-active
-      opacity: 0.5
+      opacity: 0.75
   &--poisonapple
     background-image: url('../images/poisonapple.gif')
     background-position: 50% 80%
+    &.bespoke-backdrop-active
+      opacity: 0.25
   &--backbonejs
     background-color: white
     background-image: url('../images/backbonejs.png')
@@ -277,7 +279,7 @@ pre, code
   &--clojure
     background-image: url('../images/clojure.jpg')
     &.bespoke-backdrop-active
-      opacity: 0.15
+      opacity: 0.2
   &--petehunt
     filter: grayscale(50%)
     background-image: url('../images/petehunt.jpeg')
@@ -285,18 +287,20 @@ pre, code
     transform-origin: 50% 20%
     transition: opacity 1s ease, transform 16s ease
     &.bespoke-backdrop-active
-      opacity: 0.15
+      opacity: 0.2
   &--leebyron
     background-image: url('../images/leebyron.jpeg')
     transform-origin: 50% 40%
     &.bespoke-backdrop-active
-      opacity: 0.1
+      opacity: 0.25
   &--swannodette
     background-image: url('../images/swannodette.jpg')
     background-position: 50% 0
     transform-origin: 60% 40%
   &--raynos
     background-image: url('../images/raynos.jpeg')
+    &.bespoke-backdrop-active
+      opacity: 0.4
   &--mattesch
     background-image: url('../images/mattesch.png')
     background-position: 0 100%
