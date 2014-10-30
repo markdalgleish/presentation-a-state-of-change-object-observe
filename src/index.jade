@@ -1,0 +1,447 @@
+mixin slide(names, slideClasses)
+  if names
+    section(class=names+' '+slideClasses, data-bespoke-backdrop='backdrop ' + names.split(' ').map(function(name) { return 'backdrop--' + name; }).join(' '))
+      block
+  else
+    section
+      block
+
+doctype html
+html
+  head
+  meta(charset='utf-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+  title A State of Change &mdash; On the future of Object.observe
+
+  link(rel='stylesheet', type='text/css', href='build/build.css')
+
+  body
+
+    article
+
+      +slide
+        img.avatar(src='images/profile.jpg')
+        h4 @markdalgleish
+
+      +slide('orion')
+        h1 A State<br />of Change
+
+      +slide
+        h3 On the future of
+        h2 Object.observe
+
+      +slide
+        h2 { }
+
+      +slide
+        h2 { changed: true }
+
+      +slide
+        h2.single-words No idea it changed
+
+      +slide
+        h1 Solutions?
+
+      +slide('backbonejs')
+        pre.language-javascript
+          code.
+            var model = new Model();
+
+            model.set('foo', 'bar');
+            model.get('foo');
+
+      +slide('angularjs')
+        h2 Dirty checking
+        h3 &mdash; a.k.a. $scope.$digest( ) &mdash;
+
+      +slide
+        h3(style='width:490px') &ldquo;Angular models are plain old JavaScript objects. This makes your code easy to test, maintain, reuse, and again free from boilerplate.&rdquo;
+
+      +slide
+        h1 Object.observe
+
+      +slide('code')
+        pre.language-javascript
+          code.
+            var o = {};
+
+            Object.observe(o, function(changes) {
+              console.log(changes);
+            });
+
+      +slide('code')
+        pre.language-javascript
+          code.
+            // Add a property
+            o.foo = 'bar';
+
+            // Change record:
+            [{ name: "foo",
+               object: o,
+               type: "add" }]
+      +slide('code')
+        pre.language-javascript
+          code.
+            // Update a property:
+            o.foo = 123;
+
+            // Change record
+            [{ name: "foo",
+               object: o,
+               oldValue: "bar",
+               type: "update" }]
+      +slide('code')
+        pre.language-javascript
+          code.
+            delete o.foo;
+
+            // Change record:
+            [{ name: "foo",
+               object: o,
+               oldValue: 123,
+               type: "delete" }]
+      +slide('code')
+        pre.language-javascript
+          code.
+            Object.freeze(o);
+
+            // Change record:
+            [{ object: o,
+               type: "preventExtensions" }]
+
+      +slide
+        h1 Array.observe
+
+      +slide('code')
+        pre.language-javascript
+          code.
+            var a = [];
+
+            Array.observe(a, function(changes) {
+              console.log(changes);
+            });
+      +slide('code')
+        pre.language-javascript
+          code.
+            a.push(1);
+
+            // Change record:
+            [{ addedCount: 1,
+               index: 0,
+               object: a,
+               removed: [],
+               type: "splice" }]
+
+      +slide
+        h2.single-words Synthetic change events
+
+      +slide('code')
+        pre.language-javascript
+          code.
+            Object.getNotifier(o).notify({
+              type: 'update',
+              name: 'foo',
+              oldValue: 'bar'
+            });
+
+      +slide
+        h2 Binding<br><br><br>plain old data<br><br><br>to the<br><br><br>DOM
+
+      +slide('chrome')
+        h3 Available now in
+        h2 Chrome Stable
+
+      +slide
+        h2.single-words Seems uncontroversial enough
+
+      +slide('still lightning')
+        h2 Dissent
+        h3 &mdash; is &mdash;
+        h2 brewing
+
+      +slide('bw petehunt')
+        h3 &ldquo;Object.observe( ) is going to be the next &lsquo;with&rsquo; statement:<br>a weird language idiosyncrasy solving a problem<br>that wasn&rsquo;t very important.&rdquo;
+        h4 Pete Hunt, React
+
+      +slide('bw nicolasgallagher')
+        h3 &ldquo;Object.observe(data, function(){<br>throw new Error(&lsquo;NO&rsquo;) });&rdquo;
+        h4 Nicolas Gallagher, Twitter
+
+      +slide('bw pascalhartig')
+        h3(style='width:500px') &ldquo;Back when Object.observe was first announced, I was so excited. Today I&rsquo;d much rather have proper support for immutable data structures.&rdquo;
+        h4 Pascal Hartig, TodoMVC
+
+      +slide
+        h2 Mutability
+        h3 &mdash; vs. &mdash;
+        h2 Immutability
+
+      +slide
+        h1 Immutable<br>values
+
+      +slide('code')
+        pre.language-javascript
+          code.
+            // 'hello' is immutable
+            var str = 'hello';
+
+            str.replace('hello', 'goodbye');
+            str.slice(2);
+            str.concat(' there');
+
+            str; // still equals 'hello'
+
+      +slide
+        h2 Simple comparisons
+        pre.language-javascript
+          code.
+            'hello' === 'hello';
+
+      +slide
+        h3 We&rsquo;ve been treating
+        h2 arrays
+        h3 &mdash; like they&rsquo;re &mdash;
+        h2 immutable
+
+      +slide('code')
+        pre.small.language-javascript
+          code.
+            // Old and scary:
+
+            var nums = [1,2,3,4,5];
+
+            for (var i = 0; i &lt; nums.length; i++) {
+              // Cube all numbers
+              nums[i] = nums[i] * nums[i] * nums[i];
+
+              // Remove uneven items
+              if (nums[i] % 2 !== 0) {
+                nums.splice(i, 1);
+                i--;
+              }
+            }
+
+      +slide('code')
+        pre.language-javascript
+          code.
+            // New and simple:
+
+            var nums = [1,2,3,4,5]
+              .map(x => x * x * x)
+              .filter(x => x % 2 == 0);
+
+      +slide
+        h2 Every map, filter
+        h3 &mdash; results in a &mdash;
+        h2 New array
+
+      +slide('code')
+        pre.language-javascript
+          code.
+            // Unfortunately,
+            // not actually immutable :(
+
+            nums.push(123);
+
+      +slide
+        h2 No simple comparisons
+        pre.language-javascript
+          code.
+            assert([1,2,3] !== [1,2,3]);
+
+      +slide
+        h2 Cleaner code
+        h3 &mdash; with &mdash;
+        h2 Fewer bugs
+
+      +slide
+        h2.single-words Why are objects different?
+
+      +slide
+        h2 What if every change
+        h3 &mdash; resulted in a &mdash;
+        h2 new object?
+
+      +slide('swannodette')
+        h4 David Nolen
+        br
+        h1 Mori
+        br
+        h4 Via ClojureScript
+
+      +slide('code')
+        pre.language-javascript
+          code.
+            // Create:
+            var map1 = mori.hash_map('foo', 1);
+
+            // Update:
+            var map2 = mori.conj(m, mori.vector('bar', 2));
+
+            // Returns a new hash map:
+            { 'foo': 1, 'bar': 2 }
+
+      +slide('leebyron')
+        h4 Lee Byron
+        br
+        h1 Immutable-js
+        br
+        h4 Facebook
+
+      +slide('code')
+        pre.language-javascript
+          code.
+            // Create:
+            var map1 = Immutable.Map({ foo: 1 });
+
+            // Update:
+            var map2 = map1.merge({ bar: 2 });
+
+            // Returns a new map:
+            { "foo": 1, "bar": 2 }
+
+      +slide
+        h2 Simple comparisons!
+        pre.language-javascript
+          code.
+            var map1 = Immutable.Map({ foo: 'bar' });
+            var map2 = map1.merge({ foo: 'bar' });
+
+            assert(map1 === map2); // :D !!!
+
+      +slide('code')
+        pre.language-javascript
+          code.
+            var map1 = Immutable.Map({ foo: 'bar' });
+            var map2 = Immutable.Map({ foo: 'bar' });
+
+            assert(Immutable.is(map1, map2));
+
+      +slide
+        h2 Is this redundant
+        h3 &mdash; when we have &mdash;
+        h2 Stateful DOM?
+
+      +slide
+        h1 React
+
+      +slide
+        h3(style='width:440px') &ldquo;Simply express how your app should look at any given point in time, and React will automatically manage all UI updates&rdquo;
+
+      +slide
+        h2.single-words Essentially stateless DOM
+
+      +slide('mattesch')
+        h4 Matt Esch
+        br
+        h1 virtual-dom
+        br
+        h4 Inspired by React
+
+      +slide
+        h2.single-words What&rsquo;s the big deal?
+
+      +slide('swannodette')
+        h4 David Nolen
+        br
+        h1 Om
+        br
+        h4 React + ClojureScript
+
+      +slide
+        h2 Entire UI state
+        h3 &mdash; in a &mdash;
+        h2 Single, immutable object
+
+      +slide
+        h2 &ldquo;The future
+        h3 &mdash; of &mdash;
+        h2 JavaScript MVCs&rdquo;
+
+      +slide
+        h3(style='width:540px') &ldquo;Om uses ClojureScript data structures which we know will not be changed. Because of this, we can [do] the fastest check possible - a reference equality check&rdquo;
+
+      +slide('clojure')
+        h2 Simple comparisons
+        h3 &mdash; Data has value semantics &mdash;
+        pre.language-clojure
+          code.
+            (=
+              {:foo "bar"}
+              {:foo "bar"}
+            )
+
+      +slide
+        h3(style='width:550px') &ldquo;&hellip;immutable data allows&hellip; Om&hellip; to outperform a reasonably performant JavaScript MVC like Backbone.js&rdquo;
+
+      +slide
+        h3(style='width:490px') &ldquo;If you treat the browser as a remote rendering engine and stop treating it as a place to query and store crap, everything gets faster.&rdquo;
+
+      +slide
+        h2.single-words Undo for free
+
+      +slide
+        h2.single-words Save entire UI state
+
+      +slide
+        h2.single-words Read the whole <a href="http://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs/">article</a>
+
+      +slide
+        h3 Get used to hearing
+        h2 &ldquo;Inspired by Om&rdquo;
+
+      +slide('raynos')
+        h4 @raynos
+        br
+        h1 Mercury
+        br
+        h4 Powered by virtual-dom
+
+      +slide
+        h3 So what about
+        h2 Object.observe?
+
+      +slide
+        h3 Simplifies binding
+        h2 Mutable data
+        h3 &mdash; to a &mdash;
+        h2 Stateful DOM
+
+      +slide('yellow')
+        h1 ES7
+
+      +slide
+        h2 But&hellip;
+
+      +slide('still poisonapple')
+        h3 &mdash; Is Object.observe &mdash;
+        h2 What we want
+        h3 &mdash; rather than &mdash;
+        h2 What we need?
+
+      +slide('pascalhartig')
+        h3(style='width:680px') &ldquo;data binding&hellip; appeared to have enough common solutions that it could be standardized&hellip; then React came along and all of a sudden it&rsquo;s not that clear anymore.&rdquo;
+        h4 Pascal Hartig, TodoMVC
+
+      +slide
+        h3 Is the future rendering
+        h2 Immutable data
+        h3 &mdash; to a &mdash;
+        h2 Stateless DOM?
+
+      +slide('petehunt')
+        h3 &ldquo;Just because it&rsquo;s in a spec<br>doesn&rsquo;t mean it&rsquo;s The Future<sup>TM</sup>&rdquo;
+        h4 Pete Hunt, React
+
+      +slide
+        a(href='https://github.com/markdalgleish/presentation-a-state-of-change/REFERENCES.md')
+          h2 References
+
+      +slide
+        img.avatar(src='images/profile.jpg')
+        br
+        h2 Thanks
+        a(href='http://bit.ly/stateofchange', style='border:none')
+          h3 bit.ly/stateofchange
+
+    script(src='build/build.js')
