@@ -46,7 +46,7 @@ model.get('foo');
       <section>
         <h1>Object.observe</h1>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>var o = {};
 
 Object.observe(o, function(changes) {
@@ -54,7 +54,7 @@ Object.observe(o, function(changes) {
 });
 </code></pre>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>// Add a property
 o.foo = 'bar';
 
@@ -63,7 +63,7 @@ o.foo = 'bar';
    object: o,
    type: "add" }]</code></pre>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>// Update a property:
 o.foo = 123;
 
@@ -73,7 +73,7 @@ o.foo = 123;
    oldValue: "bar",
    type: "update" }]</code></pre>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>delete o.foo;
 
 // Change record:
@@ -82,7 +82,7 @@ o.foo = 123;
    oldValue: 123,
    type: "delete" }]</code></pre>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>Object.freeze(o);
 
 // Change record:
@@ -93,14 +93,14 @@ o.foo = 123;
       <section>
         <h1>Array.observe</h1>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>var a = [];
 
 Array.observe(a, function(changes) {
   console.log(changes);
 });</code></pre>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>a.push(1);
 
 // Change record:
@@ -114,7 +114,7 @@ Array.observe(a, function(changes) {
       <section>
         <h2 class="single-words">Synthetic change events</h2>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>Object.getNotifier(o).notify({
   type: 'update',
   name: 'foo',
@@ -157,7 +157,7 @@ Array.observe(a, function(changes) {
       <section>
         <h1>Immutable<br>values</h1>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>// 'hello' is immutable
 var str = 'hello';
 
@@ -179,7 +179,7 @@ str; // still equals 'hello'
         <h3>&mdash; like they&rsquo;re &mdash;</h3>
         <h2>immutable</h2>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="small language-javascript"><code>// Old and scary:
 
 var nums = [1,2,3,4,5];
@@ -196,7 +196,7 @@ for (var i = 0; i &lt; nums.length; i++) {
 }
 </code></pre>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>// New and simple:
 
 var nums = [1,2,3,4,5]
@@ -209,7 +209,7 @@ var nums = [1,2,3,4,5]
         <h3>&mdash; results in a &mdash;</h3>
         <h2>New array</h2>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>// Unfortunately,
 // not actually immutable :(
 
@@ -239,7 +239,7 @@ nums.push(123);
         <h1>Mori</h1><br>
         <h4>Via ClojureScript</h4>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>// Create:
 var map1 = mori.hash_map('foo', 1);
 
@@ -255,7 +255,7 @@ var map2 = mori.conj(m, mori.vector('bar', 2));
         <h1>Immutable-js</h1><br>
         <h4>Facebook</h4>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>// Create:
 var map1 = Immutable.Map({ foo: 1 });
 
@@ -274,7 +274,7 @@ var map2 = map1.merge({ foo: 'bar' });
 assert(map1 === map2); // :D !!!
 </code></pre>
       </section>
-      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+      <section>
         <pre class="language-javascript"><code>var map1 = Immutable.Map({ foo: 'bar' });
 var map2 = Immutable.Map({ foo: 'bar' });
 
