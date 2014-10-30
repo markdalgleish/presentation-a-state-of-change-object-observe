@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>A State of Change &mdash; On the future of Object.observe</title>
+  <link rel="stylesheet" type="text/css" href="build/build.css">
+  <body>
+    <article>
+      <section><img src="images/profile.jpg" class="avatar">
+        <h4>@markdalgleish</h4>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--orion" class="orion undefined">
+        <h1>A State<br />of Change</h1>
+      </section>
+      <section>
+        <h3>On the future of</h3>
+        <h2>Object.observe</h2>
+      </section>
+      <section>
+        <h2>{ }</h2>
+      </section>
+      <section>
+        <h2>{ changed: true }</h2>
+      </section>
+      <section>
+        <h2 class="single-words">No idea it changed</h2>
+      </section>
+      <section>
+        <h1>Solutions?</h1>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--backbonejs" class="backbonejs undefined">
+        <pre class="language-javascript"><code>var model = new Model();
+
+model.set('foo', 'bar');
+model.get('foo');
+</code></pre>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--angularjs" class="angularjs undefined">
+        <h2>Dirty checking</h2>
+        <h3>&mdash; a.k.a. $scope.$digest( ) &mdash;</h3>
+      </section>
+      <section>
+        <h3 style="width:490px">&ldquo;Angular models are plain old JavaScript objects. This makes your code easy to test, maintain, reuse, and again free from boilerplate.&rdquo;</h3>
+      </section>
+      <section>
+        <h1>Object.observe</h1>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>var o = {};
+
+Object.observe(o, function(changes) {
+  console.log(changes);
+});
+</code></pre>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>// Add a property
+o.foo = 'bar';
+
+// Change record:
+[{ name: "foo",
+   object: o,
+   type: "add" }]</code></pre>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>// Update a property:
+o.foo = 123;
+
+// Change record
+[{ name: "foo",
+   object: o,
+   oldValue: "bar",
+   type: "update" }]</code></pre>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>delete o.foo;
+
+// Change record:
+[{ name: "foo",
+   object: o,
+   oldValue: 123,
+   type: "delete" }]</code></pre>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>Object.freeze(o);
+
+// Change record:
+[{ object: o,
+   type: "preventExtensions" }]
+   </code></pre>
+      </section>
+      <section>
+        <h1>Array.observe</h1>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>var a = [];
+
+Array.observe(a, function(changes) {
+  console.log(changes);
+});</code></pre>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>a.push(1);
+
+// Change record:
+[{ addedCount: 1,
+   index: 0,
+   object: a,
+   removed: [],
+   type: "splice" }]
+   </code></pre>
+      </section>
+      <section>
+        <h2 class="single-words">Synthetic change events</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>Object.getNotifier(o).notify({
+  type: 'update',
+  name: 'foo',
+  oldValue: 'bar'
+});
+</code></pre>
+      </section>
+      <section>
+        <h2>Binding<br><br><br>plain old data<br><br><br>to the<br><br><br>DOM</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--chrome" class="chrome undefined">
+        <h3>Available now in</h3>
+        <h2>Chrome Stable</h2>
+      </section>
+      <section>
+        <h2 class="single-words">Seems uncontroversial enough</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--still backdrop--lightning" class="still lightning undefined">
+        <h2>Dissent</h2>
+        <h3>&mdash; is &mdash;</h3>
+        <h2>brewing</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--bw backdrop--petehunt" class="bw petehunt undefined">
+        <h3>&ldquo;Object.observe( ) is going to be the next &lsquo;with&rsquo; statement:<br>a weird language idiosyncrasy solving a problem<br>that wasn&rsquo;t very important.&rdquo;</h3>
+        <h4>Pete Hunt, React</h4>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--bw backdrop--nicolasgallagher" class="bw nicolasgallagher undefined">
+        <h3>&ldquo;Object.observe(data, function(){<br>throw new Error(&lsquo;NO&rsquo;) });&rdquo;</h3>
+        <h4>Nicolas Gallagher, Twitter</h4>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--bw backdrop--pascalhartig" class="bw pascalhartig undefined">
+        <h3 style="width:500px">&ldquo;Back when Object.observe was first announced, I was so excited. Today I&rsquo;d much rather have proper support for immutable data structures.&rdquo;</h3>
+        <h4>Pascal Hartig, TodoMVC</h4>
+      </section>
+      <section>
+        <h2>Mutability</h2>
+        <h3>&mdash; vs. &mdash;</h3>
+        <h2>Immutability</h2>
+      </section>
+      <section>
+        <h1>Immutable<br>values</h1>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>// 'hello' is immutable
+var str = 'hello';
+
+str.replace('hello', 'goodbye');
+str.slice(2);
+str.concat(' there');
+
+str; // still equals 'hello'
+</code></pre>
+      </section>
+      <section>
+        <h2>Simple comparisons</h2>
+        <pre class="language-javascript"><code>'hello' === 'hello';
+</code></pre>
+      </section>
+      <section>
+        <h3>We&rsquo;ve been treating</h3>
+        <h2>arrays</h2>
+        <h3>&mdash; like they&rsquo;re &mdash;</h3>
+        <h2>immutable</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="small language-javascript"><code>// Old and scary:
+
+var nums = [1,2,3,4,5];
+
+for (var i = 0; i &lt; nums.length; i++) {
+  // Cube all numbers
+  nums[i] = nums[i] * nums[i] * nums[i];
+  
+  // Remove uneven items
+  if (nums[i] % 2 !== 0) {
+    nums.splice(i, 1);
+    i--;
+  }
+}
+</code></pre>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>// New and simple:
+
+var nums = [1,2,3,4,5]
+  .map(x => x * x * x)
+  .filter(x => x % 2 == 0);
+  </code></pre>
+      </section>
+      <section>
+        <h2>Every map, filter</h2>
+        <h3>&mdash; results in a &mdash;</h3>
+        <h2>New array</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>// Unfortunately,
+// not actually immutable :(
+
+nums.push(123);
+</code></pre>
+      </section>
+      <section>
+        <h2>No simple comparisons</h2>
+        <pre class="language-javascript"><code>assert([1,2,3] !== [1,2,3]);
+</code></pre>
+      </section>
+      <section>
+        <h2>Cleaner code</h2>
+        <h3>&mdash; with &mdash;</h3>
+        <h2>Fewer bugs</h2>
+      </section>
+      <section>
+        <h2 class="single-words">Why are objects different?</h2>
+      </section>
+      <section>
+        <h2>What if every change</h2>
+        <h3>&mdash; resulted in a &mdash;</h3>
+        <h2>new object?</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--swannodette" class="swannodette undefined">
+        <h4>David Nolen</h4><br>
+        <h1>Mori</h1><br>
+        <h4>Via ClojureScript</h4>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>// Create:
+var map1 = mori.hash_map('foo', 1);
+
+// Update:
+var map2 = mori.conj(m, mori.vector('bar', 2));
+
+// Returns a new hash map:
+{ 'foo': 1, 'bar': 2 }
+</code></pre>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--leebyron" class="leebyron undefined">
+        <h4>Lee Byron</h4><br>
+        <h1>Immutable-js</h1><br>
+        <h4>Facebook</h4>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>// Create:
+var map1 = Immutable.Map({ foo: 1 });
+
+// Update:
+var map2 = map1.merge({ bar: 2 });
+
+// Returns a new map:
+{ "foo": 1, "bar": 2 }
+</code></pre>
+      </section>
+      <section>
+        <h2>Simple comparisons!</h2>
+        <pre class="language-javascript"><code>var map1 = Immutable.Map({ foo: 'bar' });
+var map2 = map1.merge({ foo: 'bar' });
+
+assert(map1 === map2); // :D !!!
+</code></pre>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--code" class="code undefined">
+        <pre class="language-javascript"><code>var map1 = Immutable.Map({ foo: 'bar' });
+var map2 = Immutable.Map({ foo: 'bar' });
+
+assert(Immutable.is(map1, map2));
+</code></pre>
+      </section>
+      <section>
+        <h2>Is this redundant</h2>
+        <h3>&mdash; when we have &mdash;</h3>
+        <h2>Stateful DOM?</h2>
+      </section>
+      <section>
+        <h1>React</h1>
+      </section>
+      <section>
+        <h3 style="width:440px">&ldquo;Simply express how your app should look at any given point in time, and React will automatically manage all UI updates&rdquo;</h3>
+      </section>
+      <section>
+        <h2 class="single-words">Essentially stateless DOM</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--mattesch" class="mattesch undefined">
+        <h4>Matt Esch</h4><br>
+        <h1>virtual-dom</h1><br>
+        <h4>Inspired by React</h4>
+      </section>
+      <section>
+        <h2 class="single-words">What&rsquo;s the big deal?</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--swannodette" class="swannodette undefined">
+        <h4>David Nolen</h4><br>
+        <h1>Om</h1><br>
+        <h4>React + ClojureScript</h4>
+      </section>
+      <section>
+        <h2>Entire UI state</h2>
+        <h3>&mdash; in a &mdash;</h3>
+        <h2>Single, immutable object</h2>
+      </section>
+      <section>
+        <h2>&ldquo;The future</h2>
+        <h3>&mdash; of &mdash;</h3>
+        <h2>JavaScript MVCs&rdquo;</h2>
+      </section>
+      <section>
+        <h3 style="width:540px">&ldquo;Om uses ClojureScript data structures which we know will not be changed. Because of this, we can [do] the fastest check possible - a reference equality check&rdquo;</h3>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--clojure" class="clojure undefined">
+        <h2>Simple comparisons</h2>
+        <h3>&mdash; Data has value semantics &mdash;</h3>
+        <pre class="language-clojure"><code>(=
+  {:foo "bar"}
+  {:foo "bar"}
+)
+</code></pre>
+      </section>
+      <section>
+        <h3 style="width:550px">&ldquo;&hellip;immutable data allows&hellip; Om&hellip; to outperform a reasonably performant JavaScript MVC like Backbone.js&rdquo;</h3>
+      </section>
+      <section>
+        <h3 style="width:490px">&ldquo;If you treat the browser as a remote rendering engine and stop treating it as a place to query and store crap, everything gets faster.&rdquo;</h3>
+      </section>
+      <section>
+        <h2 class="single-words">Undo for free</h2>
+      </section>
+      <section>
+        <h2 class="single-words">Save entire UI state</h2>
+      </section>
+      <section>
+        <h2 class="single-words">Read the whole <a href="http://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs/">article</a></h2>
+      </section>
+      <section>
+        <h3>Get used to hearing</h3>
+        <h2>&ldquo;Inspired by Om&rdquo;</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--raynos" class="raynos undefined">
+        <h4>@raynos</h4><br>
+        <h1>Mercury</h1><br>
+        <h4>Powered by virtual-dom</h4>
+      </section>
+      <section>
+        <h3>So what about</h3>
+        <h2>Object.observe?</h2>
+      </section>
+      <section>
+        <h3>Simplifies binding</h3>
+        <h2>Mutable data</h2>
+        <h3>&mdash; to a &mdash;</h3>
+        <h2>Stateful DOM</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--yellow" class="yellow undefined">
+        <h1>ES7</h1>
+      </section>
+      <section>
+        <h2>But&hellip;</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--still backdrop--poisonapple" class="still poisonapple undefined">
+        <h3>&mdash; Is Object.observe &mdash;</h3>
+        <h2>What we want</h2>
+        <h3>&mdash; rather than &mdash;</h3>
+        <h2>What we need?</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--pascalhartig" class="pascalhartig undefined">
+        <h3 style="width:680px">&ldquo;data binding&hellip; appeared to have enough common solutions that it could be standardized&hellip; then React came along and all of a sudden it&rsquo;s not that clear anymore.&rdquo;</h3>
+        <h4>Pascal Hartig, TodoMVC</h4>
+      </section>
+      <section>
+        <h3>Is the future rendering</h3>
+        <h2>Immutable data</h2>
+        <h3>&mdash; to a &mdash;</h3>
+        <h2>Stateless DOM?</h2>
+      </section>
+      <section data-bespoke-backdrop="backdrop backdrop--petehunt" class="petehunt undefined">
+        <h3>&ldquo;Just because it&rsquo;s in a spec<br>doesn&rsquo;t mean it&rsquo;s The Future<sup>TM</sup>&rdquo;</h3>
+        <h4>Pete Hunt, React</h4>
+      </section>
+      <section><a href="https://github.com/markdalgleish/presentation-a-state-of-change/REFERENCES.md">
+          <h2>References</h2></a>
+      </section>
+      <section><img src="images/profile.jpg" class="avatar"><br>
+        <h2>Thanks</h2><a href="http://bit.ly/stateofchange" style="border:none">
+          <h3>bit.ly/stateofchange</h3></a>
+      </section>
+    </article>
+    <script src="build/build.js"></script>
+  </body>
+</html>
