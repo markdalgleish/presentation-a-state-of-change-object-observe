@@ -60,7 +60,7 @@ html
       +slide
         h1 Object.observe
 
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             var o = {};
@@ -69,7 +69,7 @@ html
               console.log(changes);
             });
 
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             // Add a property
@@ -79,7 +79,7 @@ html
             [{ name: "foo",
                object: o,
                type: "add" }]
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             // Update a property:
@@ -90,7 +90,7 @@ html
                object: o,
                oldValue: "bar",
                type: "update" }]
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             delete o.foo;
@@ -100,7 +100,7 @@ html
                object: o,
                oldValue: 123,
                type: "delete" }]
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             Object.freeze(o);
@@ -112,7 +112,7 @@ html
       +slide
         h1 Array.observe
 
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             var a = [];
@@ -120,7 +120,7 @@ html
             Array.observe(a, function(changes) {
               console.log(changes);
             });
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             a.push(1);
@@ -135,7 +135,7 @@ html
       +slide
         h2.single-words Synthetic change events
 
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             Object.getNotifier(o).notify({
@@ -179,7 +179,7 @@ html
       +slide
         h1 Immutable<br>values
 
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             // 'hello' is immutable
@@ -203,7 +203,7 @@ html
         h3 &mdash; like they&rsquo;re &mdash;
         h2 immutable
 
-      +slide('code')
+      +slide
         pre.small.language-javascript
           code.
             // Old and scary:
@@ -221,7 +221,7 @@ html
               }
             }
 
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             // New and simple:
@@ -235,7 +235,7 @@ html
         h3 &mdash; results in a &mdash;
         h2 New array
 
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             // Unfortunately,
@@ -269,7 +269,7 @@ html
         br
         h4 Via ClojureScript
 
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             // Create:
@@ -288,7 +288,7 @@ html
         br
         h4 Facebook
 
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             // Create:
@@ -309,7 +309,7 @@ html
 
             assert(map1 === map2); // :D !!!
 
-      +slide('code')
+      +slide
         pre.language-javascript
           code.
             var map1 = Immutable.Map({ foo: 'bar' });
