@@ -16,6 +16,7 @@
   "license": "MIT",
   "devDependencies": {
     "bespoke": "^1.0.0",
+    "bespoke-backdrop": "^1.0.0",
     "bespoke-bullets": "^1.1.0",
     "bespoke-classes": "^1.0.0",
     "bespoke-hash": "^1.0.0",
