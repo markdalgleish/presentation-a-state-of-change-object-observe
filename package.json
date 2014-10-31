@@ -8,7 +8,9 @@
     "url": "git://github.com/markdalgleish/presentation-a-state-of-change-object-observe.git"
   },
   "scripts": {
-    "serve": "gulp serve"
+    "serve": "gulp serve",
+    "test": "gulp",
+    "deploy": "gulp deploy"
   },
   "author": "Mark Dalgleish",
   "license": "MIT",
