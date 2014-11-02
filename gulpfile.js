@@ -102,7 +102,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('deploy', ['build'], function(done) {
-  ghpages.publish(path.join(__dirname, 'dist'), { logger: gutil.log }, done);
+  ghpages.publish(path.join(__dirname, 'dist'), { logger: gutil.log, message: 'Updates --skip-ci' }, done);
 });
 
 gulp.task('build', ['js', 'html', 'css', 'images']);
