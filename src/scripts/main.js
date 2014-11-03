@@ -1,5 +1,5 @@
 var bespoke = require('bespoke'),
-  classes = require('bespoke-classes'),
+  nebula = require('bespoke-theme-nebula'),
   keys = require('bespoke-keys'),
   touch = require('bespoke-touch'),
   bullets = require('bespoke-bullets'),
@@ -8,7 +8,7 @@ var bespoke = require('bespoke'),
   hash = require('bespoke-hash');
 
 bespoke.from('article', [
-  classes(),
+  nebula(),
   keys(),
   touch(),
   bullets('ul:not(.no-bullets) li, ol:not(.no-bullets) li, .bullet'),
